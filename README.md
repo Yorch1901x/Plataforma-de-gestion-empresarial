@@ -85,8 +85,5 @@ ISC
 
 ## 👤 Autor
 
-Tu nombre aquí
+Yorch1901x
 
----
-
-**¡Listo para comenzar! Instala las dependencias y inicia tu proyecto.**
