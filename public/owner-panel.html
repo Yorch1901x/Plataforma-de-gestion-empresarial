@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Propietario - Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/owner-panel.css">
+</head>
+
+<body>
+    <div id="loadingOverlay">Verificando Credenciales...</div>
+
+    <nav class="navbar">
+        <div class="logo">PORTAL <span
+                style="color:var(--warning-color); font-size:1rem; vertical-align:middle;">[OWNER]</span></div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/owner-panel" class="active">Panel Owner</a>
+        </div>
+        <div class="actions-nav">
+            <span id="currentUserEmail" style="font-size: 0.9rem; color: #888;"></span>
+            <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>Gestión de Usuarios y Roles</h1>
+        </div>
+
+        <div class="controls-card">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar por UID o Email...">
+            <select id="roleFilter" class="filter-select">
+                <option value="all">Todos los roles</option>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+            <button class="logout-btn" id="refreshBtn">Actualizar</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>Email</th>
+                        <th>Rol Actual</th>
+                        <th>Orgs</th>
+                        <th>Acción (Asignar Rol)</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Los usuarios se cargarán aquí -->
+                </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                No se encontraron usuarios.
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script type="module" src="/assets/js/owner-panel.js"></script>
+</body>
+
+</html>

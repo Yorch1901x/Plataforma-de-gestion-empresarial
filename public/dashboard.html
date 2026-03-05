@@ -1,98 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Portal</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <style>
-        .navbar {
-            background-color: #1a1a1a !important;
-        }
-
-        .navbar .container {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #000;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-email {
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        .logout-btn {
-            background-color: #000;
-            color: white;
-            border: 1px solid #fff;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .logout-btn:hover {
-            background-color: #fff;
-            color: #000;
-        }
-
-        .dashboard-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .welcome-card {
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            color: #000;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar">
             <div class="container">
                 <div class="nav-left">
                     <div class="logo">Portal</div>
-                    <ul class="nav-links">
+                    <ul class="nav-links" id="navLinks">
                         <li><a href="/dashboard">Dashboard</a></li>
                         <li><a href="#services">Servicios</a></li>
                         <li><a href="#contact">Contacto</a></li>
@@ -146,74 +69,7 @@
         </div>
     </footer>
 
-    <script type="module">
-        // Import Firebase modules
-        import { signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-
-        // Obtener configuración de Firebase desde el servidor
-        let firebaseConfig = null;
-        let auth = null;
-
-        async function initializeFirebase() {
-            try {
-                const response = await fetch('/api/config');
-                const data = await response.json();
-                firebaseConfig = data.firebaseConfig;
-                
-                // Initialize Firebase
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                
-                console.log('Firebase inicializado correctamente');
-            } catch (error) {
-                console.error('Error al obtener configuración de Firebase:', error);
-            }
-        }
-
-        // Inicializar Firebase antes de hacer nada
-        await initializeFirebase();
-
-        // Verificar si el usuario está autenticado
-        const userEmail = localStorage.getItem('userEmail');
-        const authToken = localStorage.getItem('authToken');
-
-        console.log('Verificando autenticación en dashboard...');
-        console.log('Email guardado:', userEmail);
-        console.log('Token guardado:', authToken ? 'Sí' : 'No');
-
-        if (!userEmail || !authToken) {
-            console.log('No autenticado, redirigiendo a login');
-            window.location.href = '/login';
-        } else {
-            console.log('Usuario autenticado:', userEmail);
-            // Mostrar email del usuario
-            const userNameElement = document.getElementById('userEmail');
-            if (userNameElement) {
-                userNameElement.textContent = userEmail;
-            }
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            if (welcomeMessage) {
-                welcomeMessage.textContent = `¡Hola ${userEmail}! Tu sesión está activa.`;
-            }
-        }
-
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('userEmail');
-                    console.log('Sesión cerrada');
-                    window.location.href = '/login';
-                } catch (error) {
-                    console.error('Error al cerrar sesión:', error);
-                }
-            });
-        }
-    </script>
+    <script type="module" src="/assets/js/dashboard.js"></script>
 </body>
+
 </html>

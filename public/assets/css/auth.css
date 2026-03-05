@@ -1,0 +1,257 @@
+/* Variables de diseño para modo oscuro */
+:root {
+    --primary-color: #ffffff;
+    --primary-hover: #e5e7eb;
+    --bg-body: #000000;
+    --text-color: #ffffff;
+    --bg-card: #000000;
+    --border-color: #ffffff;
+    --input-bg: #111111;
+    --error-bg: #ffffff;
+    --error-text: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-body);
+    padding: 20px;
+    color: var(--text-color);
+}
+
+/* Contenedores principales con borde blanco */
+.signup-card,
+.login-card,
+.reset-card {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 0px;
+    border: 1px solid var(--border-color);
+    box-shadow: 10px 10px 0px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.signup-header,
+.login-header,
+.reset-header {
+    text-align: left;
+    margin-bottom: 30px;
+    border-left: 4px solid #ffffff;
+    padding-left: 15px;
+}
+
+.signup-header h1,
+.login-header h1,
+.reset-header h1 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.signup-header p,
+.login-header p,
+.reset-header p {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* Estilos del formulario */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--input-bg);
+    border: 1px solid #333;
+    color: #ffffff;
+    border-radius: 0px;
+    outline: none;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.form-group input::placeholder {
+    color: #666;
+}
+
+.form-group input:focus {
+    border-color: #ffffff;
+    background-color: #000000;
+}
+
+/* Botón de mostrar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 34px;
+    cursor: pointer;
+    color: #888;
+    background: none;
+    border: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.toggle-password:hover {
+    color: #ffffff;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    font-size: 0.8rem;
+}
+
+.actions a {
+    color: #888;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.actions a:hover {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.signup-btn,
+.login-btn,
+.reset-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-color);
+    color: #000;
+    border: 1px solid #ffffff;
+    border-radius: 0px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+}
+
+.signup-btn:hover,
+.login-btn:hover,
+.reset-btn:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.signup-btn:disabled,
+.login-btn:disabled,
+.reset-btn:disabled {
+    background-color: #333;
+    border-color: #333;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Mensajes */
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    padding: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    display: none;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.success-message {
+    background-color: #0a0;
+    color: #fff;
+    padding: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    display: none;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.info-text {
+    background-color: #1a1a1a;
+    color: #888;
+    padding: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    border-left: 3px solid #fff;
+    line-height: 1.6;
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.footer-text a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+.password-requirements {
+    font-size: 0.7rem;
+    color: #888;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.password-requirements.valid {
+    color: #0a0;
+}
+
+/* Checkbox personalizado */
+input[type="checkbox"] {
+    accent-color: #ffffff;
+    cursor: pointer;
+}
