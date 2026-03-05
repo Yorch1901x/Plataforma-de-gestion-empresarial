@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Propietario - Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ffffff;
+            --bg-body: #050505;
+            --bg-card: #111111;
+            --text-color: #e5e7eb;
+            --text-muted: #888888;
+            --border-color: #333333;
+            --accent-color: #3b82f6;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #000000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .actions-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-section h1 {
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        /* Controls */
+        .controls-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            background: #000000;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #ffffff;
+        }
+
+        .filter-select {
+            background: #000000;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #0a0a0a;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #1a1a1a;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-owner {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .role-admin {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .role-user {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .action-select {
+            background: #000000;
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            outline: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .action-select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        /* Toasts */
+        #toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loadingOverlay">Verificando Credenciales...</div>
+
+    <nav class="navbar">
+        <div class="logo">PORTAL <span
+                style="color:var(--warning-color); font-size:1rem; vertical-align:middle;">[OWNER]</span></div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/owner-panel" class="active">Panel Owner</a>
+        </div>
+        <div class="actions-nav">
+            <span id="currentUserEmail" style="font-size: 0.9rem; color: #888;"></span>
+            <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>Gestión de Usuarios y Roles</h1>
+        </div>
+
+        <div class="controls-card">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar por UID o Email...">
+            <select id="roleFilter" class="filter-select">
+                <option value="all">Todos los roles</option>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+            <button class="logout-btn" id="refreshBtn">Actualizar</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>Email</th>
+                        <th>Rol Actual</th>
+                        <th>Orgs</th>
+                        <th>Acción (Asignar Rol)</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Los usuarios se cargarán aquí -->
+                </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                No se encontraron usuarios.
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+        let app, auth, db;
+        let allUsers = [];
+
+        // UI Elements
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const usersTableBody = document.getElementById('usersTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const roleFilter = document.getElementById('roleFilter');
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        async function initialize() {
+            try {
+                const response = await fetch('/api/config');
+                const data = await response.json();
+
+                app = initializeApp(data.firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        document.getElementById('currentUserEmail').textContent = user.email;
+
+                        // Check if current user is owner
+                        const userDoc = await getDoc(doc(db, 'users', user.uid));
+                        if (userDoc.exists() && userDoc.data().role === 'owner') {
+                            loadingOverlay.style.display = 'none';
+                            loadUsers();
+                        } else {
+                            alert('Acceso Denegado: No tienes privilegios de Owner.');
+                            window.location.href = '/dashboard';
+                        }
+                    } else {
+                        window.location.href = '/login';
+                    }
+                });
+            } catch (error) {
+                console.error("Error al inicializar", error);
+                alert("Error crítico al cargar el panel.");
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                usersTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Cargando usuarios...</td></tr>';
+                emptyState.style.display = 'none';
+
+                const querySnapshot = await getDocs(collection(db, "users"));
+                allUsers = [];
+                querySnapshot.forEach((doc) => {
+                    allUsers.push(doc.data());
+                });
+
+                renderUsers();
+            } catch (error) {
+                console.error("Error cargando usuarios:", error);
+                showToast("Error al cargar la lista de usuarios. Revisa permisos.", "error");
+            }
+        }
+
+        function renderUsers() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filterRole = roleFilter.value;
+
+            const filteredUsers = allUsers.filter(u => {
+                const matchesSearch = u.email.toLowerCase().includes(searchTerm) || u.uid.toLowerCase().includes(searchTerm);
+                const matchesRole = filterRole === 'all' || u.role === filterRole;
+                return matchesSearch && matchesRole;
+            });
+
+            usersTableBody.innerHTML = '';
+
+            if (filteredUsers.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                filteredUsers.forEach(user => {
+                    const tr = document.createElement('tr');
+
+                    // Solo el owner no debe poder cambiarse a sí mismo a menor nivel de forma fácil o al menos advertir (aquí lo permitiremos, pero normalmente no)
+                    const isSelf = user.uid === auth.currentUser.uid;
+
+                    tr.innerHTML = `
+                        <td style="font-family: monospace; font-size: 0.85rem; color: #aaa;">${user.uid}</td>
+                        <td style="font-weight: 600;">${user.email} ${isSelf ? '<span style="color:var(--text-muted); font-size: 0.75rem;">(Tú)</span>' : ''}</td>
+                        <td><span class="role-badge role-${user.role}">${user.role}</span></td>
+                        <td>${user.orgs_ids ? user.orgs_ids.length : 0} Orgs</td>
+                        <td>
+                            <select class="action-select" onchange="window.updateUserRole('${user.uid}', this.value)" ${isSelf ? 'disabled title="No puedes cambiar tu propio rol desde aquí"' : ''}>
+                                <option value="user" ${user.role === 'user' ? 'selected' : ''}>User</option>
+                                <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                <option value="owner" ${user.role === 'owner' ? 'selected' : ''}>Owner</option>
+                            </select>
+                        </td>
+                    `;
+                    usersTableBody.appendChild(tr);
+                });
+            }
+        }
+
+        window.updateUserRole = async (uid, newRole) => {
+            try {
+                const userRef = doc(db, 'users', uid);
+                await updateDoc(userRef, {
+                    role: newRole
+                });
+                showToast(`Rol actualizado a ${newRole} exitosamente`);
+                loadUsers(); // Refresh
+            } catch (error) {
+                console.error("Error actualizando rol:", error);
+                showToast("Error al actualizar el rol. Verifica permisos.", "error");
+                loadUsers(); // Revert UI
+            }
+        };
+
+        // Event Listeners
+        searchInput.addEventListener('input', renderUsers);
+        roleFilter.addEventListener('change', renderUsers);
+        refreshBtn.addEventListener('click', loadUsers);
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Setup
+        initialize();
+    </script>
+</body>
+
+</html>

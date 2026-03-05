@@ -64,6 +64,10 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/dashboard.html'));
 });
 
+app.get('/owner-panel', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/owner-panel.html'));
+});
+
 app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/signup.html'));
 });
