@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,13 +87,14 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <nav class="navbar">
             <div class="container">
                 <div class="nav-left">
                     <div class="logo">Portal</div>
-                    <ul class="nav-links">
+                    <ul class="nav-links" id="navLinks">
                         <li><a href="/dashboard">Dashboard</a></li>
                         <li><a href="#services">Servicios</a></li>
                         <li><a href="#contact">Contacto</a></li>
@@ -151,21 +153,24 @@
         import { signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
         // Obtener configuración de Firebase desde el servidor
         let firebaseConfig = null;
         let auth = null;
+        let db = null;
 
         async function initializeFirebase() {
             try {
                 const response = await fetch('/api/config');
                 const data = await response.json();
                 firebaseConfig = data.firebaseConfig;
-                
+
                 // Initialize Firebase
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
-                
+                db = getFirestore(app);
+
                 console.log('Firebase inicializado correctamente');
             } catch (error) {
                 console.error('Error al obtener configuración de Firebase:', error);
@@ -197,6 +202,26 @@
             if (welcomeMessage) {
                 welcomeMessage.textContent = `¡Hola ${userEmail}! Tu sesión está activa.`;
             }
+
+            // Verificar el rol del usuario en Firestore para mostrar opciones de Owner
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", user.uid));
+                        if (userDoc.exists()) {
+                            const userData = userDoc.data();
+                            if (userData.role === 'owner') {
+                                const navLinks = document.getElementById('navLinks');
+                                const ownerLink = document.createElement('li');
+                                ownerLink.innerHTML = '<a href="/owner-panel" style="color:#f59e0b; font-weight:bold;">Panel Owner 👑</a>';
+                                navLinks.appendChild(ownerLink);
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error al obtener perfil del usuario", error);
+                    }
+                }
+            });
         }
 
         // Logout
@@ -216,4 +241,5 @@
         }
     </script>
 </body>
+
 </html>
