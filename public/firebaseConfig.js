@@ -3,13 +3,16 @@
 // Las variables se cargan desde el archivo .env
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDummy_API_KEY_REPLACE_THIS",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abc123def456"
+    // Estas variables ahora deben cargarse desde el servidor para mayor seguridad.
+    // Consulta /api/config o revisa el archivo .env en la raiz del proyecto.
+    apiKey: "CARGADO_DESDE_ENV",
+    authDomain: "CARGADO_DESDE_ENV",
+    projectId: "CARGADO_DESDE_ENV",
+    storageBucket: "CARGADO_DESDE_ENV",
+    messagingSenderId: "CARGADO_DESDE_ENV",
+    appId: "CARGADO_DESDE_ENV"
 };
+
 
 // Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";

@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const bcryptjs = require('bcryptjs');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
@@ -107,8 +108,8 @@ app.post('/api/auth/login', async (req, res) => {
         return res.status(401).json({ error: 'Credenciales inválidas' });
     }
     
-    // Crear token de sesión
-    const token = Math.random().toString(36).substr(2) + Date.now().toString(36);
+    // Crear token de sesión seguro
+    const token = crypto.randomBytes(32).toString('hex');
     sessions[token] = { userId: user.id, createdAt: Date.now() };
     
     res.json({ success: true, token, message: 'Sesión iniciada' });
